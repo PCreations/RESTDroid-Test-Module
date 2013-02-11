@@ -1,4 +1,4 @@
-package fr.pcreations.labs.RESTDroid.samples.debug;
+package fr.pcreations.labs.RESTDroid.samples.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,49 +12,54 @@ import fr.pcreations.labs.RESTDroid.core.RESTRequest;
 import fr.pcreations.labs.RESTDroid.core.ResourceRepresentation;
 import fr.pcreations.labs.RESTDroid.exceptions.DaoFactoryNotInitializedException;
 
-public class DebugProcessor extends Processor {
+public class TestProcessor extends Processor {
 
 	@Override
 	protected void preRequestProcess(
-			RESTRequest<? extends ResourceRepresentation<?>> r)
+			RESTRequest<ResourceRepresentation<?>> r)
 			throws Exception {
 		/* Parse.com Authentication headers */
-		r.addHeader("X-Parse-Application-Id", DebugWebService.APPLICATION_ID);
-		r.addHeader("X-Parse-REST-API-Key", DebugWebService.REST_API_KEY);
+		r.addHeader("Accept", "application/json");
+		r.addHeader("Content-Type", "application/json");
+		r.addHeader("X-Parse-Application-Id", TestWebService.APPLICATION_ID);
+		r.addHeader("X-Parse-REST-API-Key", TestWebService.REST_API_KEY);
 	}
 
 	@Override
 	protected void preGetRequest(
-			RESTRequest<? extends ResourceRepresentation<?>> r) {
+			RESTRequest<ResourceRepresentation<?>> r) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void preDeleteRequest(
-			RESTRequest<? extends ResourceRepresentation<?>> r) {
+			RESTRequest<ResourceRepresentation<?>> r) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected InputStream prePostRequest(
-			RESTRequest<? extends ResourceRepresentation<?>> r) {
+			RESTRequest<ResourceRepresentation<?>> r) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected InputStream prePutRequest(
-			RESTRequest<? extends ResourceRepresentation<?>> r) {
+			RESTRequest<ResourceRepresentation<?>> r) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	protected <T extends ResourceRepresentation<?>> int postRequestProcess(
-			int statusCode, RESTRequest<T> r, InputStream resultStream) {
-		Log.i(DebugWebService.TAG, inputStreamToString(resultStream));
+	protected int postRequestProcess(
+			int statusCode, RESTRequest<ResourceRepresentation<?>> r, InputStream resultStream) {
+		if(statusCode >= 200 && statusCode <= 210)
+			Log.i(TestWebService.TAG, inputStreamToString(resultStream));
+		else
+			Log.i(TestWebService.TAG, "Error : status code = " + String.valueOf(statusCode));
 		return statusCode;
 	}
 	

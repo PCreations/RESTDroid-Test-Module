@@ -1,15 +1,15 @@
-package fr.pcreations.labs.RESTDroid.samples.debug;
+package fr.pcreations.labs.RESTDroid.samples.test;
 
 import fr.pcreations.labs.RESTDroid.core.DaoFactory;
 import fr.pcreations.labs.RESTDroid.core.Module;
 import fr.pcreations.labs.RESTDroid.core.ParserFactory;
 import fr.pcreations.labs.RESTDroid.core.Processor;
 
-public class DebugModule extends Module {
+public class TestModule extends Module {
 
 	@Override
 	public Processor setProcessor() {
-		return new DebugProcessor();
+		return new TestProcessor();
 	}
 
 	@Override

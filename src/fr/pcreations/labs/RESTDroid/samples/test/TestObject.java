@@ -1,4 +1,4 @@
-package fr.pcreations.labs.RESTDroid.samples.debug;
+package fr.pcreations.labs.RESTDroid.samples.test;
 
 import java.util.Date;
 
