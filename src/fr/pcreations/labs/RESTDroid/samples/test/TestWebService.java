@@ -6,8 +6,8 @@ import fr.pcreations.labs.RESTDroid.core.WebService;
 
 public class TestWebService extends WebService {
 
-	public static final String APPLICATION_ID = "your_application_id";
-	public static final String REST_API_KEY = "your_rest_api_key";
+	public static final String APPLICATION_ID = "wHE988z9K8XjMfWc3ZutaAmJu3UnLCUNpuDJPwge";
+	public static final String REST_API_KEY = "Fz5u00Ppw8uX3nJcSBOxqzWUE0qsWwjJTZyc2VYA";
 	public static final String TAG = "fr.pcreations.labs.RESTDROID.sample.DebugWebService.TAG";
 	
 	private static final String BASE_URI = "https://api.parse.com/1/classes/";
@@ -18,8 +18,12 @@ public class TestWebService extends WebService {
 		super(context);
 	}
 	
-	public void getTest(RESTRequest<TestObject> r, String id) {
-		get(r, BASE_URI + TEST_OBJECT + id);
+	public TestWebService() {
+		super();
+	}
+	
+	public RESTRequest<TestObject> getTest(Class<TestObject> clazz, String id) {
+		return get(clazz, BASE_URI + TEST_OBJECT + id);
 	}
 
 }

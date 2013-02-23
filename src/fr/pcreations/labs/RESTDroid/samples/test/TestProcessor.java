@@ -10,7 +10,6 @@ import android.util.Log;
 import fr.pcreations.labs.RESTDroid.core.Processor;
 import fr.pcreations.labs.RESTDroid.core.RESTRequest;
 import fr.pcreations.labs.RESTDroid.core.ResourceRepresentation;
-import fr.pcreations.labs.RESTDroid.exceptions.DaoFactoryNotInitializedException;
 
 public class TestProcessor extends Processor {
 

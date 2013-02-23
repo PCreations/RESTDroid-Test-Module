@@ -5,40 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import fr.pcreations.labs.RESTDroid.core.RESTDroid;
 import fr.pcreations.labs.RESTDroid.core.RESTRequest;
-import fr.pcreations.labs.RESTDroid.core.RESTRequest.OnFailedRequestListener;
-import fr.pcreations.labs.RESTDroid.core.RESTRequest.OnFinishedRequestListener;
-import fr.pcreations.labs.RESTDroid.core.RESTRequest.OnStartedRequestListener;
+import fr.pcreations.labs.RESTDroid.core.RequestListeners;
 import fr.pcreations.labs.RESTDroid.exceptions.RESTDroidNotInitializedException;
 import fr.pcreations.labs.RESTDroid.samples.debug.R;
 
 public class TestActivity extends Activity {
 
+	
 	private TestWebService ws;
+	
 	private RESTRequest<TestObject> getTestRequest;
 	
-	private OnStartedRequestListener onGetTestStart = new OnStartedRequestListener() {
-
-		public void onStartedRequest() {
-			Log.i(TestWebService.TAG, "getTestRequest has started");
-		}
-		
-	};
-	
-	private OnFinishedRequestListener onGetTestFinish = new OnFinishedRequestListener() {
-
-		public void onFinishedRequest(int resultCode) {
-			Log.i(TestWebService.TAG, "getTestRequest has finished with code " + resultCode);
-		}
-		
-	};
-	
-	private OnFailedRequestListener onGetTestFail = new OnFailedRequestListener() {
-		
-		public void onFailedRequest(int resultCode) {
-			Log.i(TestWebService.TAG, "getTestRequest has failed with code " + resultCode);
-		}
-		
-	};
+	public static final String GET_TEST_REQUEST_ID = "get_test_request_id";
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,11 +25,9 @@ public class TestActivity extends Activity {
         try {
 			ws = (TestWebService) RESTDroid.getInstance().getWebService(TestWebService.class);
 			ws.registerModule(new TestModule());
-			getTestRequest = ws.newRequest(TestObject.class);
-			getTestRequest.addOnStartedRequestListener(onGetTestStart);
-			getTestRequest.addOnFinishedRequestListener(onGetTestFinish);
-			getTestRequest.addOnFailedRequestListener(onGetTestFail);
-			ws.getTest(getTestRequest, "mG2hB0Xvco");
+			getTestRequest = ws.getTest(TestObject.class, "mG2hB0Xvco");
+			getTestRequest.setRequestListeners(new TestRequestListeners());
+			ws.executeRequest(getTestRequest);
 		} catch (RESTDroidNotInitializedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,6 +45,39 @@ public class TestActivity extends Activity {
     public void onResume() {
     	super.onResume();
     	ws.onResume();
+    }
+    
+    public class TestRequestListeners extends RequestListeners {
+    	private OnStartedRequestListener onStart = new OnStartedRequestListener() {
+
+    		public void onStartedRequest() {
+    			Log.i(TestWebService.TAG, "getTestRequest has started");
+    		}
+    		
+    	};
+    	
+    	private OnFinishedRequestListener onFinished = new OnFinishedRequestListener() {
+
+    		public void onFinishedRequest(int resultCode) {
+    			Log.i(TestWebService.TAG, "getTestRequest has finished with code " + resultCode);
+    		}
+    		
+    	};
+    	
+    	private OnFailedRequestListener onFailed = new OnFailedRequestListener() {
+    		
+    		public void onFailedRequest(int resultCode) {
+    			Log.i(TestWebService.TAG, "getTestRequest has failed with code " + resultCode);
+    		}
+    		
+    	};
+    	
+    	public TestRequestListeners() {
+    		super();
+    		addOnStartedRequestListener(onStart);
+    		addOnFinishedRequestListener(onFinished);
+    		addOnFailedRequestListener(onFailed);
+    	}
     }
 
 }
